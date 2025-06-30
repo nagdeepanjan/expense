@@ -1,7 +1,7 @@
-﻿@model MyExpense
+@model MyExpense
 
 @{
-    ViewData["Title"] = "Add New Expense";
+    ViewData["Title"] = "Edit Expense";
 }
 
 <div class="container">
@@ -9,11 +9,12 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">Add New Expense</h3>
+                    <h3 class="mb-0">Edit Expense</h3>
                 </div>
                 <div class="card-body">
-                    <form asp-action="Create" method="post">
+                    <form asp-action="Edit" method="post">
                         @Html.AntiForgeryToken()
+                        <input asp-for="Id" type="hidden" />
                         
                         <!-- Validation Summary -->
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
@@ -73,9 +74,14 @@
                             <a asp-action="Index" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Back to List
                             </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Add Expense
-                            </button>
+                            <div>
+                                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger me-2">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Update Expense
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -96,18 +102,6 @@
             if (this.value) {
                 document.getElementById('Category').value = this.value;
                 this.value = ''; // Reset dropdown
-            }
-        });
-
-        // Set today's date as default if not set
-        document.addEventListener('DOMContentLoaded', function() {
-            const dateInput = document.getElementById('Date');
-            if (!dateInput.value) {
-                const today = new Date();
-                const formattedDate = today.getFullYear() + '-' + 
-                    String(today.getMonth() + 1).padStart(2, '0') + '-' + 
-                    String(today.getDate()).padStart(2, '0');
-                dateInput.value = formattedDate;
             }
         });
 
